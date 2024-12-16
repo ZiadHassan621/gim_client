@@ -28,13 +28,13 @@ class _SplashscreenState extends State<Splashscreen> {
         .postData(linktoken, {'refreshToken': readtoken['RefreshToken']});
     if (response['StatusCode'] == 200) {
       await data.deleteAccesstoken();
-      print(response['ResponseBody']);
+     // print(response['ResponseBody']);
       await data.writeAccesstoken(response['ResponseBody']['accessToken']);
       var checkGym = await _crud.getData(linkgetgym, readtoken['AccessToken']);
       if (checkGym['StatusCode'] == 200) {
-        Navigator.pushReplacementNamed(context, '/multipages');
+        Navigator.pushReplacementNamed(context, '/viewAllgym');
       } else {
-        Navigator.pushReplacementNamed(context, '/CreateFristGym');
+        Navigator.pushReplacementNamed(context, '/Login');
         // goto Create GYM Page
       }
       // Navigator.pushReplacementNamed(context, '/multipages');

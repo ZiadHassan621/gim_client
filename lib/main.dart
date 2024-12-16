@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gim_client/Pages/allgyms.dart';
 import 'package:gim_client/Pages/createfristgym.dart';
 import 'package:gim_client/Pages/multipages.dart';
 import 'package:gim_client/Pages/dasboard.dart';
@@ -20,9 +21,10 @@ class GymManagmentSystem extends StatelessWidget {
       routes: {
         '/Signup': (context) => const Sign_up(),
         '/Login': (context) => const LoginPage(),
-        '/dashboard': (context) => const DashBoard(),
-        '/multipages': (context) => const MultiPagesNav(),
-        '/CreateFristGym': (context) => const CreateFristGym()
+        '/dashboard': (context) => DashBoard(),
+        '/multipages': (context) => MultiPagesNav(),
+        '/CreateFristGym': (context) => const CreateFristGym(),
+        '/viewAllgym': (context) => const ReviewAllGym(),
       },
       debugShowCheckedModeBanner: false,
     );

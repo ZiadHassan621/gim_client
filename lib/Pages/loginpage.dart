@@ -3,6 +3,7 @@ import 'package:gim_client/Constant/linkapi.dart';
 import 'package:gim_client/Crud/crud.dart';
 import 'package:gim_client/Database/localdata.dart';
 import 'package:gim_client/MyWidget/myTextfield.dart';
+import 'package:gim_client/Pages/allgyms.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,21 +21,19 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController pass = TextEditingController();
   login() async {
     var readtoken = await data.readtoken();
-   
     var response = await _crud.postData(
         linkLogin, {"identifier": identifier.text, "password": pass.text});
-
     if (response['StatusCode'] == 200) {
       await data.deleteAlltoken();
       await data.writetoken(response["ResponseBody"]['accessToken'],
           response["ResponseBody"]['refreshToken']);
-      var checkGym = await _crud.getData(linkgetgym, readtoken['AccessToken']);
-      if (checkGym['StatusCode'] == 200) {
-        Navigator.pushReplacementNamed(context, '/multipages');
-      } else {
-        Navigator.pushReplacementNamed(context, '/CreateFristGym');
-        // goto Create GYM Page
-      }
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ReviewAllGym()),
+        (Route<dynamic> route) => false,
+      );
+
+      //   // goto Create GYM Page
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response['ResponseBody']['error'])));
@@ -117,23 +116,14 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/Signup');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.deepPurple,
-                            padding: const EdgeInsets.all(10.0),
-                            fixedSize: const Size(250, 60),
-                            textStyle: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
-                          child: const Text("Sign Up"),
-                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/Signup');
+                            },
+                            child: const Text(
+                              "Create a new account....",
+                              style: TextStyle(color: Colors.white),
+                            ))
                       ],
                     ),
                   ),

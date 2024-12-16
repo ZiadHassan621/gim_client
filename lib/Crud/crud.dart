@@ -117,4 +117,30 @@ class Crud {
       print("ERROR : $e");
     }
   }
+
+  deleteGymbyId(String url, String accesstoken) async {
+    try {
+      var response = await http.delete(Uri.parse(url),
+          headers: {'Authorization': 'Bearer $accesstoken'});
+      // print(response.statusCode);
+      if (response.statusCode == 200) {
+        return {
+          "ResponseBody": jsonDecode(response.body),
+          "StatusCode": response.statusCode
+        };
+      } else if (response.statusCode == 403) {
+        return {
+          "ResponseBody": response.body,
+          "StatusCode": response.statusCode
+        };
+      } else {
+        return {
+          "ResponseBody": jsonDecode(response.body),
+          "StatusCode": response.statusCode
+        };
+      }
+    } catch (e) {
+      print("ERROR : $e");
+    }
+  }
 }
